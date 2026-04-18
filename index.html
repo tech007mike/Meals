@@ -257,7 +257,7 @@
     background: linear-gradient(180deg, rgba(255,92,110,.18), rgba(255,92,110,.08));
   }
 
-  .exercise-card{
+  .ingredient-card{
     background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
     border: 1px solid rgba(255,255,255,.12);
     border-radius:16px;
@@ -269,7 +269,7 @@
     -webkit-backdrop-filter: blur(12px);
   }
 
-  .exercise-card img{
+  .ingredient-card img{
     width:180px;
     height:180px;
     object-fit:cover;
@@ -280,7 +280,7 @@
     box-shadow: 0 14px 34px rgba(0,0,0,.55);
   }
 
-  .exercise-title{
+  .ingredient-title{
     text-align:center;
     font-size:18px;
     font-weight:950;
@@ -288,12 +288,12 @@
     margin:0 0 10px;
   }
 
-  .exercise-actions{
+  .ingredient-actions{
     display:flex;
     gap:10px;
     margin:10px 0 6px;
   }
-  .exercise-actions button{
+  .ingredient-actions button{
     flex:1;
     padding:10px 12px;
     border-radius:12px;
@@ -304,7 +304,7 @@
     cursor:pointer;
     box-shadow: 0 12px 28px rgba(0,0,0,.45);
   }
-  .exercise-actions .danger{
+  .ingredient-actions .danger{
     border-color: rgba(255,92,110,.35);
     background: linear-gradient(180deg, rgba(255,92,110,.18), rgba(255,92,110,.08));
   }
@@ -546,8 +546,8 @@
 <div id="groupsRoot"></div>
 
 <div class="controls">
-  <button onclick="addMuscleGroup()">+ Add Muscle Group</button>
-  <button onclick="openGroupList()">Muscle Group List</button>
+  <button onclick="addMeal()">+ Add Meal</button>
+  <button onclick="openGroupList()">Meal List</button>
   <button class="grid-btn" id="gridToggleBtn" onclick="toggleGrid()">Grid: 3 Across</button>
   <button onclick="exportData()">Export</button>
   <input type="file" id="importFile" accept="application/json" hidden>
@@ -581,52 +581,13 @@ function defaultAppData(){
     groups: [
       {
         id: uid(),
-        name: 'Legs',
+        name: 'Meal',
         img: '',
-        exercises: [
+        ingredients: [
           
         ]
       },
-      {
-        id: uid(),
-        name: 'Back',
-        img: '',
-        exercises: [
-          
-        ]
-      },
-      {
-        id: uid(),
-        name: 'Biceps',
-        img: '',
-        exercises: [
-        
-        ]
-      },
-      {
-        id: uid(),
-        name: 'Chest',
-        img: '',
-        exercises: [
-          
-        ]
-      },
-      {
-        id: uid(),
-        name: 'Shoulders',
-        img: '',
-        exercises: [
-       
-        ]
-      },
-      {
-        id: uid(),
-        name: 'Triceps',
-        img: '',
-        exercises: [
-         
-        ]
-      }
+      
     ]
   };
 }
@@ -801,10 +762,10 @@ function renderGroups(){
 
     tile.innerHTML = `
       <div class="tile-actions">
-        <button class="icon-btn" title="Edit group"
-          onclick="event.stopPropagation(); editMuscleGroup('${g.id}')">✎</button>
-        <button class="icon-btn danger" title="Delete group"
-          onclick="event.stopPropagation(); deleteMuscleGroup('${g.id}')">🗑</button>
+        <button class="icon-btn" title="Edit meal"
+          onclick="ditvent.stopPropagation(); editMeal('${g.id}')">✎</button>
+        <button class="icon-btn danger" title="Delete meal"
+          onclick="event.stopPropagation(); deleteMeal('${g.id}')">🗑</button>
       </div>
       <img src="${g.img || ''}" alt="">
       <div class="label">${escapeHtml(g.name)}</div>
@@ -840,21 +801,21 @@ function openGroupPanel(groupId){
   header.innerHTML = `
     <div class="panel-title">${escapeHtml(g.name)}</div>
     <div class="panel-actions">
-      <button onclick="addExercise('${g.id}')">+ Add Exercise</button>
+      <button onclick="addingredient('${g.id}')">+ Add ingredient</button>
       <button class="danger" onclick="closePanel()">Close</button>
     </div>
   `;
   panel.appendChild(header);
 
-  g.exercises.forEach(ex=>{
+  g.ingredients.forEach(ex=>{
     const card=document.createElement('div');
-    card.className='exercise-card';
+    card.className='ingredient-card';
     card.innerHTML=`
       <img src="${ex.img || ''}" alt="">
-      <div class="exercise-title">${escapeHtml(ex.name)}</div>
-      <div class="exercise-actions">
-        <button onclick="editExercise('${g.id}','${ex.id}')">Edit</button>
-        <button class="danger" onclick="deleteExercise('${g.id}','${ex.id}')">Delete</button>
+      <div class="ingredient-title">${escapeHtml(ex.name)}</div>
+      <div class="ingredient-actions">
+        <button onclick="editIngredient('${g.id}','${ex.id}')">Edit</button>
+        <button class="danger" onclick="deleteIngredient('${g.id}','${ex.id}')">Delete</button>
       </div>
     `;
     CHART_ORDER.forEach(label=>card.appendChild(buildChart(g.name, ex.name, label)));
@@ -979,7 +940,7 @@ function setGroupSortMode(mode){
 
 function openGroupList(){
   const html = `
-    <h3>Muscle Groups</h3>
+    <h3>Meals</h3>
 
     <div class="gl-toolbar">
       <div class="gl-pill ${getGroupSortMode()==='user' ? 'active':''}" onclick="setGroupSortMode('user')">User Order</div>
@@ -1048,10 +1009,10 @@ function applyGroupListChanges(){
 /* =======================
    GROUP CRUD (upload OR URL)
 ======================= */
-function addMuscleGroup(){
+function addMeal(){
   openModal(`
-    <h3>Add Muscle Group</h3>
-    <div class="row"><input id="mgName" placeholder="Group name (ex: Calves)"></div>
+    <h3>Add Meal</h3>
+    <div class="row"><input id="mgName" placeholder="ingredient name (ex: Eggs)"></div>
     <div class="row"><input id="mgImg" placeholder="Image URL (optional)"></div>
     <div class="row"><input id="mgFile" type="file" accept="image/*"></div>
     <div class="hint">Pick <b>either</b> an Image URL <b>or</b> upload an image. Upload overrides URL.</div>
@@ -1074,19 +1035,19 @@ async function confirmAddGroup(){
     catch{ alert('Could not read image. Try a different file.'); return; }
   }
 
-  APP.groups.push({ id: uid(), name, img, exercises: [] });
+  APP.groups.push({ id: uid(), name, img, ingredients: [] });
   saveAppData(APP);
   closeModal();
   renderGroups();
 }
 
-function editMuscleGroup(groupId){
+function editMeal(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
   openModal(`
-    <h3>Edit Muscle Group</h3>
-    <div class="row"><input id="mgName" placeholder="Group name" value="${escapeHtml(g.name)}"></div>
+    <h3>Edit Meal</h3>
+    <div class="row"><input id="mgName" placeholder="Meal name" value="${escapeHtml(g.name)}"></div>
     <div class="row"><input id="mgImg" placeholder="Image URL (optional)" value="${escapeHtml(g.img||'')}"></div>
     <div class="row"><input id="mgFile" type="file" accept="image/*"></div>
     <div class="hint">To replace the image: paste a URL, or upload a new one. Upload overrides URL.</div>
@@ -1124,14 +1085,14 @@ async function confirmEditGroup(groupId){
   if(CURRENT_GROUP_ID === groupId) openGroupPanel(groupId);
 }
 
-function deleteMuscleGroup(groupId){
+function deleteMeal(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
   openModal(`
-    <h3>Delete Muscle Group</h3>
+    <h3>Delete Meal</h3>
     <div style="font-weight:900; color:#ffb3bb; margin:6px 0 10px;">
-      Delete "${escapeHtml(g.name)}" and ALL its exercises?
+      Delete "${escapeHtml(g.name)}" and ALL its ingredients?
     </div>
     <div class="actions">
       <button onclick="closeModal()">Cancel</button>
@@ -1144,7 +1105,7 @@ function confirmDeleteGroup(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
-  g.exercises.forEach(ex=>{
+  g.ingredients.forEach(ex=>{
     CHART_ORDER.forEach(label=>{
       const k = `${KEY_PREFIX}${safeKey(g.name)}::${safeKey(ex.name)}::${safeKey(label)}`;
       localStorage.removeItem(k);
@@ -1159,26 +1120,26 @@ function confirmDeleteGroup(groupId){
 }
 
 /* =======================
-   EXERCISE CRUD (upload OR URL)
+   Ingredient CRUD (upload OR URL)
 ======================= */
-function addExercise(groupId){
+function addIngredient(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
   openModal(`
-    <h3>Add Exercise</h3>
-    <div class="row"><input id="exName" placeholder="Exercise name (ex: Calf Raise)"></div>
+    <h3>Add Ingredient</h3>
+    <div class="row"><input id="exName" placeholder="Ingredient name (ex: Eggs)"></div>
     <div class="row"><input id="exImg" placeholder="Image URL (optional)"></div>
     <div class="row"><input id="exFile" type="file" accept="image/*"></div>
     <div class="hint">Pick <b>either</b> an Image URL <b>or</b> upload an image. Upload overrides URL.</div>
     <div class="actions">
       <button onclick="closeModal()">Cancel</button>
-      <button onclick="confirmAddExercise('${groupId}')">Add</button>
+      <button onclick="confirmAddingredient('${groupId}')">Add</button>
     </div>
   `);
 }
 
-async function confirmAddExercise(groupId){
+async function confirmAddingredient(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
@@ -1186,47 +1147,47 @@ async function confirmAddExercise(groupId){
   let img  = val('exImg');
   const f = fileEl('exFile')?.files?.[0];
 
-  if(!name){ alert('Enter an exercise name.'); return; }
+  if(!name){ alert('Enter an ingredient name.'); return; }
 
   if(f){
     try{ img = await readFileAsDataURL(f); }
     catch{ alert('Could not read image. Try a different file.'); return; }
   }
 
-  g.exercises.push({ id: uid(), name, img });
+  g.ingredients.push({ id: uid(), name, img });
   saveAppData(APP);
   closeModal();
   openGroupPanel(groupId);
 }
 
-function editExercise(groupId, exId){
+function editingredient(groupId, exId){
   const g = APP.groups.find(x=>x.id===groupId);
-  const ex = g?.exercises.find(e=>e.id===exId);
+  const ex = g?.ingredients.find(e=>e.id===exId);
   if(!g || !ex) return;
 
   openModal(`
-    <h3>Edit Exercise</h3>
-    <div class="row"><input id="exName" placeholder="Exercise name" value="${escapeHtml(ex.name)}"></div>
+    <h3>Edit ingredient</h3>
+    <div class="row"><input id="exName" placeholder="ingredient name" value="${escapeHtml(ex.name)}"></div>
     <div class="row"><input id="exImg" placeholder="Image URL (optional)" value="${escapeHtml(ex.img||'')}"></div>
     <div class="row"><input id="exFile" type="file" accept="image/*"></div>
     <div class="hint">To replace the image: paste a URL, or upload a new one. Upload overrides URL.</div>
     <div class="actions">
       <button onclick="closeModal()">Cancel</button>
-      <button onclick="confirmEditExercise('${groupId}','${exId}')">Save</button>
+      <button onclick="confirmEditingredient('${groupId}','${exId}')">Save</button>
     </div>
   `);
 }
 
-async function confirmEditExercise(groupId, exId){
+async function confirmEditingredient(groupId, exId){
   const g = APP.groups.find(x=>x.id===groupId);
-  const ex = g?.exercises.find(e=>e.id===exId);
+  const ex = g?.ingredients.find(e=>e.id===exId);
   if(!g || !ex) return;
 
   const newName = val('exName');
   let newImg  = val('exImg');
   const f = fileEl('exFile')?.files?.[0];
 
-  if(!newName){ alert('Enter an exercise name.'); return; }
+  if(!newName){ alert('Enter an ingredient name.'); return; }
 
   if(f){
     try{ newImg = await readFileAsDataURL(f); }
@@ -1237,33 +1198,33 @@ async function confirmEditExercise(groupId, exId){
   ex.name = newName;
   ex.img  = newImg;
 
-  migrateWorkoutKeys_ExerciseRename(g.name, oldName, newName);
+  migrateWorkoutKeys_ingredientRename(g.name, oldName, newName);
 
   saveAppData(APP);
   closeModal();
   openGroupPanel(groupId);
 }
 
-function deleteExercise(groupId, exId){
+function deleteingredient(groupId, exId){
   const g = APP.groups.find(x=>x.id===groupId);
-  const ex = g?.exercises.find(e=>e.id===exId);
+  const ex = g?.ingredients.find(e=>e.id===exId);
   if(!g || !ex) return;
 
   openModal(`
-    <h3>Delete Exercise</h3>
+    <h3>Delete ingredient</h3>
     <div style="font-weight:900; color:#ffb3bb; margin:6px 0 10px;">
       Delete "${escapeHtml(ex.name)}" (Warm Up, 1, 2, 3 data included)?
     </div>
     <div class="actions">
       <button onclick="closeModal()">Cancel</button>
-      <button class="danger" onclick="confirmDeleteExercise('${groupId}','${exId}')">Delete</button>
+      <button class="danger" onclick="confirmDeleteingredient('${groupId}','${exId}')">Delete</button>
     </div>
   `);
 }
 
-function confirmDeleteExercise(groupId, exId){
+function confirmDeleteingredient(groupId, exId){
   const g = APP.groups.find(x=>x.id===groupId);
-  const ex = g?.exercises.find(e=>e.id===exId);
+  const ex = g?.ingredients.find(e=>e.id===exId);
   if(!g || !ex) return;
 
   CHART_ORDER.forEach(label=>{
@@ -1271,7 +1232,7 @@ function confirmDeleteExercise(groupId, exId){
     localStorage.removeItem(k);
   });
 
-  g.exercises = g.exercises.filter(e=>e.id!==exId);
+  g.ingredients = g.ingredients.filter(e=>e.id!==exId);
   saveAppData(APP);
   closeModal();
   openGroupPanel(groupId);
@@ -1292,7 +1253,7 @@ function migrateWorkoutKeys_GroupRename(oldGroup, newGroup){
   });
 }
 
-function migrateWorkoutKeys_ExerciseRename(groupName, oldEx, newEx){
+function migrateWorkoutKeys_ingredientRename(groupName, oldEx, newEx){
   const base = `${KEY_PREFIX}${safeKey(groupName)}::`;
   CHART_ORDER.forEach(label=>{
     const oldKey = `${base}${safeKey(oldEx)}::${safeKey(label)}`;
@@ -1380,19 +1341,19 @@ document.getElementById('importFile').onchange = e=>{
           const defG = defByName(g.group);
           const groupImg = defG?.img || '';
 
-          const exercises = (g.exercises || []).map(ex=>{
-            const defEx = defG?.exercises?.find(x=>x.name === ex.name);
+          const ingredients = (g.ingredients || []).map(ex=>{
+            const defEx = defG?.ingredients?.find(x=>x.name === ex.name);
             return { id: uid(), name: ex.name, img: defEx?.img || '' };
           });
 
-          return { id: uid(), name: g.group, img: groupImg, exercises };
+          return { id: uid(), name: g.group, img: groupImg, ingredients };
         });
 
         APP = { version: 1, groups: newGroups };
         saveAppData(APP);
 
         d.groups.forEach(g=>{
-          (g.exercises || []).forEach(ex=>{
+          (g.ingredients || []).forEach(ex=>{
             (ex.charts || []).forEach(c=>{
               if(!c || !c.label) return;
               const k = `${KEY_PREFIX}${safeKey(g.group)}::${safeKey(ex.name)}::${safeKey(c.label)}`;
@@ -1424,7 +1385,7 @@ document.getElementById('importFile').onchange = e=>{
    RESET (only this app)
 ======================= */
 function resetBabeSculpting(){
-  if(!confirm('This will ERASE ALL Body Sculpt data (groups, exercises, workout entries). Continue?')) return;
+  if(!confirm('This will ERASE ALL Body Sculpt data (meal, ingredientss, Food entries). Continue?')) return;
 
   Object.keys(localStorage)
     .filter(k => k.startsWith(KEY_PREFIX))
