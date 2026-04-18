@@ -846,14 +846,12 @@ function buildChart(groupName, exName, label){
 
       <div class="cell editable" style="grid-column:2/span 2">
         <input
-          class="rep-input"
-          type="number"
-          inputmode="numeric"
-          step="1"
-          min="0"
-          placeholder="units"
-          value="${saved.set > 0 ? saved.set : ''}"
-        >
+  class="unit-input"
+  type="text"
+  inputmode="text"
+  placeholder="units"
+  value="${saved.qty ? saved.qty : ''}"
+>
       </div>
 
       <div class="cell editable" style="grid-column:4/span 2">
@@ -861,7 +859,7 @@ function buildChart(groupName, exName, label){
           class="weight-input"
           type="number"
           inputmode="decimal"
-          step="0.5"
+          step="0.125"
           min="0"
           placeholder=""
           value="${saved.weight > 0 ? saved.weight : ''}"
@@ -869,7 +867,7 @@ function buildChart(groupName, exName, label){
       
     </div>`;
 
-  const repInput=wrapper.querySelector('.rep-input');
+  const unitInput=wrapper.querySelector('.unit-input');
   const weightInput=wrapper.querySelector('.weight-input');
   const plates=[...wrapper.querySelectorAll('.plate')];
 
@@ -883,12 +881,12 @@ function buildChart(groupName, exName, label){
       p.classList.toggle('active',c>0);
     });
 
-    const units=parseInt(repInput.value);
+    const units=parseInt(unitInput.value);
     const unitsSafe = Number.isFinite(units) ? units : 0;
     localStorage.setItem(key, JSON.stringify({weight:w,set:unitsSafe}));
   }
 
-  repInput.oninput=update;
+  unitInput.oninput=update;
   weightInput.oninput=update;
   update();
   return wrapper;
