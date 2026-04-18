@@ -567,7 +567,7 @@
 ======================= */
 const APP_KEY = 'Recipes::APPDATA::v1';
 const KEY_PREFIX = 'Recipes::';
-const CHART_ORDER = ['Warm Up','1','2','3'];
+const CHART_ORDER = ['QTY'];
 const LONG_PRESS_MS = 550;
 const GRID_KEY = 'Recipes::GRIDCOLS::v1';
 
@@ -851,7 +851,7 @@ function buildChart(groupName, exName, label){
           inputmode="numeric"
           step="1"
           min="0"
-          placeholder="reps"
+          placeholder="units"
           value="${saved.set > 0 ? saved.set : ''}"
         >
       </div>
@@ -863,12 +863,10 @@ function buildChart(groupName, exName, label){
           inputmode="decimal"
           step="0.5"
           min="0"
-          placeholder="lbs"
+          placeholder=""
           value="${saved.weight > 0 ? saved.weight : ''}"
         >
-      </div>
-
-      ${[45,25,10,5,2.5].map(p=>`<div class="cell plate" data-w="${p}">${p} × 0</div>`).join('')}
+      
     </div>`;
 
   const repInput=wrapper.querySelector('.rep-input');
@@ -885,9 +883,9 @@ function buildChart(groupName, exName, label){
       p.classList.toggle('active',c>0);
     });
 
-    const reps=parseInt(repInput.value);
-    const repsSafe = Number.isFinite(reps) ? reps : 0;
-    localStorage.setItem(key, JSON.stringify({weight:w,set:repsSafe}));
+    const units=parseInt(repInput.value);
+    const unitsSafe = Number.isFinite(units) ? units : 0;
+    localStorage.setItem(key, JSON.stringify({weight:w,set:unitsSafe}));
   }
 
   repInput.oninput=update;
@@ -1212,7 +1210,7 @@ function deleteingredient(groupId, exId){
   openModal(`
     <h3>Delete ingredient</h3>
     <div style="font-weight:900; color:#ffb3bb; margin:6px 0 10px;">
-      Delete "${escapeHtml(ex.name)}" (Warm Up, 1, 2, 3 data included)?
+      Delete "${escapeHtml(ex.name)}" (QTY data included)?
     </div>
     <div class="actions">
       <button onclick="closeModal()">Cancel</button>
