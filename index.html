@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Body Sculpt</title>
+<title>Recipe Book</title>
 
 <style>
   :root{
@@ -546,13 +546,13 @@
 <div id="groupsRoot"></div>
 
 <div class="controls">
-  <button onclick="addMeal()">+ Add Meal</button>
-  <button onclick="openGroupList()">Meal List</button>
+  <button onclick="addmeal()">+ Add meal</button>
+  <button onclick="openGroupList()">meal List</button>
   <button class="grid-btn" id="gridToggleBtn" onclick="toggleGrid()">Grid: 3 Across</button>
   <button onclick="exportData()">Export</button>
   <input type="file" id="importFile" accept="application/json" hidden>
   <button onclick="document.getElementById('importFile').click()">Import</button>
-  <button class="reset-btn" onclick="resetBabeSculpting()">⚠️ RESET WORKOUT DATA ⚠️</button>
+  <button class="reset-btn" onclick="resetRecipes()">⚠️ RESET Recipes DATA ⚠️</button>
 </div>
 
 <div class="overlay" onclick="closePanel()"></div>
@@ -565,11 +565,11 @@
 /* =======================
    STORAGE + DEFAULT DATA
 ======================= */
-const APP_KEY = 'BSCULPT::APPDATA::v1';
-const KEY_PREFIX = 'BSCULPT::';
+const APP_KEY = 'Recipes::APPDATA::v1';
+const KEY_PREFIX = 'Recipes::';
 const CHART_ORDER = ['Warm Up','1','2','3'];
 const LONG_PRESS_MS = 550;
-const GRID_KEY = 'BSCULPT::GRIDCOLS::v1';
+const GRID_KEY = 'Recipes::GRIDCOLS::v1';
 
 function uid(){
   return 'g_' + Math.random().toString(16).slice(2) + Date.now().toString(16);
@@ -581,13 +581,12 @@ function defaultAppData(){
     groups: [
       {
         id: uid(),
-        name: 'Meal',
+        name: 'Pasta',
         img: '',
         ingredients: [
           
         ]
-      },
-      
+      }
     ]
   };
 }
@@ -762,10 +761,10 @@ function renderGroups(){
 
     tile.innerHTML = `
       <div class="tile-actions">
-        <button class="icon-btn" title="Edit meal"
-          onclick="ditvent.stopPropagation(); editMeal('${g.id}')">✎</button>
-        <button class="icon-btn danger" title="Delete meal"
-          onclick="event.stopPropagation(); deleteMeal('${g.id}')">🗑</button>
+        <button class="icon-btn" title="Edit group"
+          onclick="event.stopPropagation(); editmeal('${g.id}')">✎</button>
+        <button class="icon-btn danger" title="Delete group"
+          onclick="event.stopPropagation(); deletemeal('${g.id}')">🗑</button>
       </div>
       <img src="${g.img || ''}" alt="">
       <div class="label">${escapeHtml(g.name)}</div>
@@ -801,7 +800,7 @@ function openGroupPanel(groupId){
   header.innerHTML = `
     <div class="panel-title">${escapeHtml(g.name)}</div>
     <div class="panel-actions">
-      <button onclick="addingredient('${g.id}')">+ Add ingredient</button>
+      <button onclick="addingredient('${g.id}')">+ Add Ingredient</button>
       <button class="danger" onclick="closePanel()">Close</button>
     </div>
   `;
@@ -814,8 +813,8 @@ function openGroupPanel(groupId){
       <img src="${ex.img || ''}" alt="">
       <div class="ingredient-title">${escapeHtml(ex.name)}</div>
       <div class="ingredient-actions">
-        <button onclick="editIngredient('${g.id}','${ex.id}')">Edit</button>
-        <button class="danger" onclick="deleteIngredient('${g.id}','${ex.id}')">Delete</button>
+        <button onclick="editingredient('${g.id}','${ex.id}')">Edit</button>
+        <button class="danger" onclick="deleteingredient('${g.id}','${ex.id}')">Delete</button>
       </div>
     `;
     CHART_ORDER.forEach(label=>card.appendChild(buildChart(g.name, ex.name, label)));
@@ -925,7 +924,7 @@ function readFileAsDataURL(file){
 /* =======================
    GROUP LIST / SORT
 ======================= */
-const GROUP_SORT_MODE_KEY = 'BSCULPT::GROUPSORTMODE::v1';
+const GROUP_SORT_MODE_KEY = 'Recipes::GROUPSORTMODE::v1';
 function getGroupSortMode(){
   const m = localStorage.getItem(GROUP_SORT_MODE_KEY) || 'user';
   return (m === 'alpha' || m === 'user') ? m : 'user';
@@ -940,7 +939,7 @@ function setGroupSortMode(mode){
 
 function openGroupList(){
   const html = `
-    <h3>Meals</h3>
+    <h3>meals</h3>
 
     <div class="gl-toolbar">
       <div class="gl-pill ${getGroupSortMode()==='user' ? 'active':''}" onclick="setGroupSortMode('user')">User Order</div>
@@ -1009,10 +1008,10 @@ function applyGroupListChanges(){
 /* =======================
    GROUP CRUD (upload OR URL)
 ======================= */
-function addMeal(){
+function addmeal(){
   openModal(`
-    <h3>Add Meal</h3>
-    <div class="row"><input id="mgName" placeholder="ingredient name (ex: Eggs)"></div>
+    <h3>Add meal</h3>
+    <div class="row"><input id="mgName" placeholder="Group name (ex: Calves)"></div>
     <div class="row"><input id="mgImg" placeholder="Image URL (optional)"></div>
     <div class="row"><input id="mgFile" type="file" accept="image/*"></div>
     <div class="hint">Pick <b>either</b> an Image URL <b>or</b> upload an image. Upload overrides URL.</div>
@@ -1041,13 +1040,13 @@ async function confirmAddGroup(){
   renderGroups();
 }
 
-function editMeal(groupId){
+function editmeal(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
   openModal(`
-    <h3>Edit Meal</h3>
-    <div class="row"><input id="mgName" placeholder="Meal name" value="${escapeHtml(g.name)}"></div>
+    <h3>Edit meal</h3>
+    <div class="row"><input id="mgName" placeholder="Group name" value="${escapeHtml(g.name)}"></div>
     <div class="row"><input id="mgImg" placeholder="Image URL (optional)" value="${escapeHtml(g.img||'')}"></div>
     <div class="row"><input id="mgFile" type="file" accept="image/*"></div>
     <div class="hint">To replace the image: paste a URL, or upload a new one. Upload overrides URL.</div>
@@ -1085,12 +1084,12 @@ async function confirmEditGroup(groupId){
   if(CURRENT_GROUP_ID === groupId) openGroupPanel(groupId);
 }
 
-function deleteMeal(groupId){
+function deletemeal(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
   openModal(`
-    <h3>Delete Meal</h3>
+    <h3>Delete meal</h3>
     <div style="font-weight:900; color:#ffb3bb; margin:6px 0 10px;">
       Delete "${escapeHtml(g.name)}" and ALL its ingredients?
     </div>
@@ -1120,15 +1119,15 @@ function confirmDeleteGroup(groupId){
 }
 
 /* =======================
-   Ingredient CRUD (upload OR URL)
+   ingredient CRUD (upload OR URL)
 ======================= */
-function addIngredient(groupId){
+function addingredient(groupId){
   const g = APP.groups.find(x=>x.id===groupId);
   if(!g) return;
 
   openModal(`
-    <h3>Add Ingredient</h3>
-    <div class="row"><input id="exName" placeholder="Ingredient name (ex: Eggs)"></div>
+    <h3>Add ingredient</h3>
+    <div class="row"><input id="exName" placeholder="ingredient name (ex: Calf Raise)"></div>
     <div class="row"><input id="exImg" placeholder="Image URL (optional)"></div>
     <div class="row"><input id="exFile" type="file" accept="image/*"></div>
     <div class="hint">Pick <b>either</b> an Image URL <b>or</b> upload an image. Upload overrides URL.</div>
@@ -1271,7 +1270,7 @@ function migrateWorkoutKeys_ingredientRename(groupName, oldEx, newEx){
 ======================= */
 function exportData(){
   const out = {
-    meta:{ app:'Body Sculpt', version:4, exportedAt:new Date().toISOString() },
+    meta:{ app:'Recipes', version:4, exportedAt:new Date().toISOString() },
     appData: APP,
     gridCols: getGridCols(),
     workouts: {}
@@ -1293,7 +1292,7 @@ function exportData(){
   const blob = new Blob([JSON.stringify(out,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'babe_sculpting_data.json';
+  a.download = 'Recipes_data.json';
   a.click();
 }
 
@@ -1384,8 +1383,8 @@ document.getElementById('importFile').onchange = e=>{
 /* =======================
    RESET (only this app)
 ======================= */
-function resetBabeSculpting(){
-  if(!confirm('This will ERASE ALL Body Sculpt data (meal, ingredientss, Food entries). Continue?')) return;
+function resetRecipes(){
+  if(!confirm('This will ERASE ALL Recipes data (groups, ingredients, Food entries). Continue?')) return;
 
   Object.keys(localStorage)
     .filter(k => k.startsWith(KEY_PREFIX))
