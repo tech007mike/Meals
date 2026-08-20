@@ -8,15 +8,18 @@
 </style><style>.tip{display:block!important;transition:.25s}.tip.run{background:linear-gradient(145deg,#5b2108,#7c2d12);border-color:#fb923c}.tip.safe{background:linear-gradient(145deg,#123c2b,#14532d)}.marketflag{display:inline-flex;align-items:center;gap:6px;font-size:11px;text-transform:uppercase;letter-spacing:.09em;background:#ffffff18;border-radius:999px;padding:5px 8px;margin:0 7px 5px 0}.quicklog{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;background:linear-gradient(135deg,#12233c,#172033);border:1px solid #ffffff14;border-radius:18px;padding:10px;margin:-6px 0 16px}.quicklog label{display:flex;align-items:center;gap:8px;background:#0006;border:1px solid var(--line);border-radius:13px;padding:0 12px}.quicklog input{width:100%;border:0;outline:0;background:transparent;color:#fff;padding:11px 0;font-size:16px}.live{display:inline-flex;align-items:center;gap:5px;color:#86efac;font-weight:800}.live:before{content:"";width:7px;height:7px;border-radius:50%;background:#30d158;box-shadow:0 0 0 4px #30d15822}.DEF{background:#30b0c7}.liveRoster{margin:-6px 0 16px;padding:11px 12px;background:#0f1725e8;border:1px solid #ffffff12;border-radius:18px;overflow:hidden}.liveRosterHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.liveRosterHead b{font-size:13px}.liveRosterHead span{font-size:11px;color:#86efac;font-weight:800}.liveRosterSlots{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.liveRosterSlots::-webkit-scrollbar{display:none}.rosterChip{flex:0 0 auto;min-width:105px;max-width:155px;padding:8px 9px;border-radius:12px;background:#ffffff0b;border:1px solid #ffffff12}.rosterChip small{display:block;color:#7dd3fc;font-size:10px;font-weight:900}.rosterChip strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;margin-top:2px}.rosterChip.empty strong{color:#64748b;font-weight:600}@media(max-width:620px){.quicklog{grid-template-columns:1fr 1fr}.quicklog label{grid-column:1/-1}.quicklog button{width:100%;padding:11px 7px}.rosterChip{min-width:96px}}</style></head>
 <body><style>.liveRosterSlots{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:7px;overflow:visible;padding-bottom:0}.rosterChip,.liveRosterSlots .rosterChip{min-width:0;max-width:none;flex:none}.orderControl{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-6px 0 16px;padding:10px 12px;border-radius:16px;background:#172033;border:1px solid #ffffff14}.orderControl label{font-size:12px;color:var(--muted)}.orderControl select{margin-left:6px;border:1px solid var(--line);border-radius:10px;background:#0b1220;color:#fff;padding:7px 9px;font-weight:800}.orderControl b{font-size:12px;color:#7dd3fc;text-align:right}@media(max-width:620px){.liveRosterSlots{grid-template-columns:repeat(2,minmax(0,1fr))}.rosterChip,.liveRosterSlots .rosterChip{min-width:0}.orderControl{align-items:flex-start}.orderControl b{max-width:52%}}</style><main class="app">
 <style>.orderControl{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(120px,auto)}.turnCountdown{min-width:86px;text-align:center;border-radius:14px;padding:7px 12px;background:#0b1220;border:1px solid #ffffff18}.turnCountdown strong{display:block;font-size:27px;line-height:1;color:#ffd60a}.turnCountdown small{display:block;margin-top:3px;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}.turnCountdown.now{background:#123c2b;border-color:#30d158;box-shadow:0 0 0 3px #30d15822}.turnCountdown.now strong{font-size:17px;color:#86efac}@media(max-width:620px){.orderControl{grid-template-columns:1fr auto}.orderControl label{grid-column:1}.orderControl .turnCountdown{grid-column:2;grid-row:1/3}.orderControl b{grid-column:1;max-width:none!important;text-align:left}}</style><header class="top"><div><div class="eyebrow">12-team · custom half-PPR</div><h1>Draft Board 12</h1></div><div class="round"><small>Current pick</small><b id="pickLabel">1.01</b></div></header>
-<section class="summary"><div class="stat"><strong id="availableCount">226</strong><span>Available</span></div><div class="stat"><strong id="draftedCount">0</strong><span>Drafted</span></div><div class="stat"><strong id="mineCount">0</strong><span>My roster</span></div><div class="stat"><strong id="needLabel">RB / WR</strong><span>Biggest need</span></div></section>
+<section class="summary"><div class="stat"><strong id="availableCount">432</strong><span>Available</span></div><div class="stat"><strong id="draftedCount">0</strong><span>Drafted</span></div><div class="stat"><strong id="mineCount">0</strong><span>My roster</span></div><div class="stat"><strong id="needLabel">RB / WR</strong><span>Biggest need</span></div></section>
 <section class="liveRoster" aria-label="Live roster"><div class="liveRosterHead"><b>My live roster</b><span id="liveRosterCount">0 / 15</span></div><div class="liveRosterSlots" id="liveRosterSlots"></div></section>
-<section class="orderControl"><label>Random order · my slot this round <select id="roundSlot" aria-label="My randomized pick slot this round"></select></label><div class="turnCountdown" id="turnCountdown" aria-live="polite"><strong>—</strong><small>picks until you</small></div><b id="turnStatus">Set your current-round slot</b></section>
+<section class="orderControl" id="orderControl"><label>Random order · my slot this round <select id="roundSlot" aria-label="My randomized pick slot this round"></select></label><div class="turnCountdown" id="turnCountdown" aria-live="polite"><strong>—</strong><small>picks until you</small></div><b id="turnStatus">Set your current-round slot</b></section>
 <style>.orderControl{position:sticky;top:max(6px,env(safe-area-inset-top));z-index:12;background:rgba(17,24,39,.68);-webkit-backdrop-filter:blur(22px) saturate(145%);backdrop-filter:blur(22px) saturate(145%);box-shadow:0 10px 32px rgba(0,0,0,.38);border-color:rgba(255,255,255,.16)}.toolbar{position:relative!important;top:auto!important}</style>
-<div class="toolbar"><label class="search">⌕<input id="search" placeholder="Search all players or teams" autocomplete="off"></label><button class="ghost" id="undo">↶ <span>Undo</span></button><button class="ghost" id="reset">Reset</button></div>
+<style>.season #orderControl,.season .quicklog{display:none}.swapWatch{margin-top:16px}.swapRows{padding:0 10px 12px}.swapItem{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid #ffffff0c}.swapItem.alert{background:#ff453a0d}.swapArrow{color:#86efac;font-weight:900}.swapItem small{display:block;color:var(--muted)}.ownerActions{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}.ownerBtn{border:1px solid #ffffff18;background:#ffffff0b;color:#cbd5e1;border-radius:9px;padding:6px 7px;font-size:10px;font-weight:850}.ownerBtn.mineOwn{background:#0a84ff;color:#fff}.ownerBtn.otherOwn{background:#ff453a22;color:#ff9a94}.ownerBtn.freeOwn{background:#30d15822;color:#86efac}.rosterChip.swapAlert{border-color:#ff9f0a;background:#ff9f0a18;box-shadow:inset 3px 0 #ff9f0a}.rosterChip.swapAlert small{color:#ffd60a}@media(max-width:620px){.swapItem{grid-template-columns:1fr auto 1fr}.swapItem .primary{grid-column:1/-1}.toolbar{flex-wrap:wrap}.toolbar .search{min-width:100%}}</style>
+<style>.ownerBtn.injuredOwn{background:#bf5af233;color:#e9d5ff;border-color:#bf5af2}.rosterChip.irFilled{background:#bf5af21c;border-color:#bf5af266}.rosterChip.irFilled small{color:#d8b4fe}</style>
+<div class="toolbar"><label class="search">⌕<input id="search" placeholder="Search all players or teams" autocomplete="off"></label><button class="primary" id="lockDraft">Lock Draft</button><button class="ghost" id="undo">↶ <span>Undo</span></button><button class="ghost" id="reset">Reset</button></div>
 <div class="quicklog"><label>＋<input id="pickInput" list="playerNames" placeholder="Type the player just selected" autocomplete="off"><datalist id="playerNames"></datalist></label><button class="ghost" id="otherPick">Drafted by others</button><button class="primary" id="myPick">My roster</button></div>
-<div class="layout"><section class="card"><div class="cardhead"><div><h2>Best 12 available</h2><p class="live">Live · recalculated after every pick</p></div><div class="seg" id="recFilter"></div></div><div class="recs" id="recommendations"></div><div class="legend">Type a selection above, or tap ✓ to add a player to your team and × when someone else drafts them.</div></section>
+<div class="layout"><section class="card"><div class="cardhead"><div><h2 id="bestTitle">Best 12 available</h2><p class="live" id="bestSubtitle">Live · recalculated after every pick</p></div><div class="seg" id="recFilter"></div></div><div class="recs" id="recommendations"></div><div class="legend">Type a selection above, or use the ownership buttons to keep the player pool accurate.</div></section>
 <aside class="side"><section class="card roster"><div class="cardhead" style="padding:0"><div><h2>My roster</h2><p id="rosterHint">Build your core first</p></div></div><div class="slots" id="slots"></div></section><section class="card tip" id="marketCard"><span class="marketflag" id="marketFlag">Market steady</span><b id="adviceTitle">Why this pick?</b><p id="advice">Elite running backs and receivers carry the most scarcity in a 12-team league. The engine discounts early quarterbacks, defenses, and kickers.</p></section></aside></div>
-<section class="card database"><div class="cardhead"><div><h2>Player database</h2><p>2026 board · 226 players, kickers, and defenses</p></div><div class="seg" id="allFilter"></div></div><div class="allplayers" id="allPlayers"></div></section>
+<section class="card swapWatch" id="swapWatch" hidden><div class="cardhead"><div><h2>My replacement watch</h2><p>Highlighted upgrades use available players only</p></div></div><div id="swapRows"></div></section>
+<section class="card database"><div class="cardhead"><div><h2>Player database</h2><p>2026 board · 400 players + all 32 NFL defenses</p></div><div class="seg" id="allFilter"></div></div><div class="allplayers" id="allPlayers"></div></section>
 <p class="foot">Rankings are a draft-day decision aid, not a guarantee. The embedded 2026 board is based on a current top-200 consensus-style ordering and adjusted locally for your 12-team scoring and roster needs. Your draft state stays on this device.</p>
 </main><div class="toast" id="toast"></div>
 <script>
@@ -206,7 +209,7 @@ const csv=`1|Jahmyr Gibbs|DET|RB
 184|Jaydon Blue|DAL|RB
 185|Chig Okonkwo|WAS|TE
 186|Kenyon Sadiq|NYJ|TE
-187|Kayshon Boutte|NE|WR
+187|Elijah Moore|BUF|WR
 188|Bryce Lance|NO|WR
 189|Kaelon Black|SF|RB
 190|Tyrone Tracy Jr.|NYG|RB
@@ -233,21 +236,279 @@ const csv=`1|Jahmyr Gibbs|DET|RB
 211|Cairo Santos|CHI|K
 212|Andres Borregales|NE|K
 213|Harrison Mevis|LAR|K
-214|Harrison Butker|KC|K
-215|Texans D/ST|HOU|DEF
-216|Broncos D/ST|DEN|DEF
-217|Seahawks D/ST|SEA|DEF
-218|Rams D/ST|LAR|DEF
-219|Eagles D/ST|PHI|DEF
-220|Vikings D/ST|MIN|DEF
-221|Chargers D/ST|LAC|DEF
-222|Ravens D/ST|BAL|DEF
-223|Patriots D/ST|NE|DEF
-224|Steelers D/ST|PIT|DEF
-225|Jaguars D/ST|JAX|DEF
-226|Packers D/ST|GB|DEF`;
-const players=csv.trim().split('\n').map(x=>{const [rank,name,team,pos]=x.split('|');return{rank:+rank,name,team,pos,id:rank+'-'+name+'-'+team}});
-const defaults={drafted:[],mine:[],history:[],filter:'ALL',allFilter:'ALL',roundSlots:{}};let state={...defaults,...JSON.parse(localStorage.getItem('draft12')||'{}')};state.roundSlots=state.roundSlots||{};
+214|Harrison Butker|KC|K`;
+const supplementalCsv=`Russell Wilson|NYG|QB
+Kirk Cousins|ATL|QB
+Joe Flacco|CLE|QB
+Mac Jones|SF|QB
+Jacoby Brissett|ARI|QB
+Gardner Minshew|KC|QB
+Jimmy Garoppolo|LAR|QB
+Jameis Winston|NYG|QB
+Kenny Pickett|CLE|QB
+Spencer Rattler|NO|QB
+Michael Penix Jr.|ATL|QB
+J.J. McCarthy|MIN|QB
+Drake Maye|NE|QB
+Caleb Williams|CHI|QB
+Jayden Daniels|WAS|QB
+Anthony Richardson|IND|QB
+Will Levis|TEN|QB
+Bryce Young|CAR|QB
+Tua Tagovailoa|MIA|QB
+Dak Prescott|DAL|QB
+Matthew Stafford|LAR|QB
+Aaron Rodgers|PIT|QB
+Geno Smith|LV|QB
+Justin Fields|NYJ|QB
+Trevor Lawrence|JAX|QB
+Deshaun Watson|CLE|QB
+Cooper Rush|BAL|QB
+Tyrod Taylor|NYJ|QB
+Mason Rudolph|PIT|QB
+Hendon Hooker|DET|QB
+Kyle Trask|TB|QB
+Trey Lance|LAC|QB
+Joshua Dobbs|NE|QB
+Sam Howell|PHI|QB
+Andy Dalton|CAR|QB
+Raheem Mostert|LV|RB
+Austin Ekeler|WAS|RB
+Jerome Ford|CLE|RB
+Kareem Hunt|KC|RB
+Samaje Perine|CIN|RB
+Justice Hill|BAL|RB
+Keaton Mitchell|BAL|RB
+Roschon Johnson|CHI|RB
+Khalil Herbert|IND|RB
+D'Onta Foreman|FA|RB
+Miles Sanders|DAL|RB
+Kenneth Gainwell|PIT|RB
+Will Shipley|PHI|RB
+AJ Dillon|PHI|RB
+Emanuel Wilson|GB|RB
+Cam Akers|NO|RB
+Jordan Mason|MIN|RB
+Ty Chandler|MIN|RB
+Kendre Miller|NO|RB
+Clyde Edwards-Helaire|NO|RB
+Antonio Gibson|NE|RB
+Rhamondre Stevenson|NE|RB
+Devin Singletary|NYG|RB
+Eric Gray|NYG|RB
+Israel Abanikanda|FA|RB
+Alexander Mattison|MIA|RB
+Ameer Abdullah|FA|RB
+Zamir White|LV|RB
+Sincere McCormick|LV|RB
+Kimani Vidal|LAC|RB
+Gus Edwards|FA|RB
+Hassan Haskins|LAC|RB
+Jaleel McLaughlin|DEN|RB
+Audric Estime|DEN|RB
+Dameon Pierce|HOU|RB
+Dare Ogunbowale|HOU|RB
+Jamaal Williams|FA|RB
+Michael Carter|ARI|RB
+Trey Benson|ARI|RB
+DeeJay Dallas|ARI|RB
+Emari Demercado|ARI|RB
+Kenny McIntosh|SEA|RB
+Chris Rodriguez Jr.|WAS|RB
+Jeremy McNichols|WAS|RB
+Raheem Blackshear|CAR|RB
+Miles Sanders|DAL|RB
+Cordarrelle Patterson|FA|RB
+Pierre Strong Jr.|CLE|RB
+Trayveon Williams|CLE|RB
+Chris Evans|CIN|RB
+Ty Johnson|BUF|RB
+Ray Davis|BUF|RB
+Frank Gore Jr.|BUF|RB
+Jeff Wilson Jr.|MIA|RB
+Salvon Ahmed|IND|RB
+Ezekiel Elliott|FA|RB
+Dalvin Cook|FA|RB
+J.K. Dobbins|DEN|RB
+Cody Schrader|LAR|RB
+Ronnie Rivers|LAR|RB
+Blake Corum|LAR|RB
+Brashard Smith|KC|RB
+Carson Steele|KC|RB
+Dylan Laube|LV|RB
+Brittain Brown|SEA|RB
+Kenny Golladay|FA|WR
+Odell Beckham Jr.|FA|WR
+Tyler Boyd|FA|WR
+Robert Woods|PIT|WR
+Nelson Agholor|FA|WR
+Noah Brown|WAS|WR
+Mecole Hardman|GB|WR
+Marquez Valdes-Scantling|SF|WR
+Allen Robinson II|FA|WR
+Michael Gallup|WAS|WR
+Josh Reynolds|NYJ|WR
+Tim Patrick|JAX|WR
+Kalif Raymond|DET|WR
+Donovan Peoples-Jones|NO|WR
+Van Jefferson|TEN|WR
+Ben Skowronek|PIT|WR
+Demarcus Robinson|SF|WR
+Tutu Atwell|LAR|WR
+Jordan Whittington|LAR|WR
+Devaughn Vele|NO|WR
+Lil'Jordan Humphrey|NYG|WR
+Marvin Mims Jr.|DEN|WR
+Michael Wilson|ARI|WR
+Greg Dortch|ARI|WR
+Zay Jones|ARI|WR
+Andrei Iosivas|CIN|WR
+Charlie Jones|CIN|WR
+Trenton Irwin|JAX|WR
+Tyquan Thornton|KC|WR
+Demario Douglas|NE|WR
+Javon Baker|NE|WR
+Mack Hollins|NE|WR
+K.J. Osborn|WAS|WR
+Jalin Hyatt|NYG|WR
+Wan'Dale Robinson|NYG|WR
+Darius Slayton|NYG|WR
+Allen Lazard|NYJ|WR
+Malachi Corley|NYJ|WR
+Tyler Johnson|NYJ|WR
+Roman Wilson|PIT|WR
+Calvin Austin III|PIT|WR
+Quez Watkins|ARI|WR
+Devontez Walker|BAL|WR
+Tylan Wallace|BAL|WR
+Jamari Thrash|CLE|WR
+Cedric Tillman|CLE|WR
+David Bell|CLE|WR
+Alec Pierce|IND|WR
+Josh Downs|IND|WR
+Anthony Gould|IND|WR
+Parker Washington|JAX|WR
+Dyami Brown|JAX|WR
+Tim Jones|MIN|WR
+Nick Westbrook-Ikhine|MIA|WR
+Tyler Johnson|NYJ|WR
+Braxton Berrios|HOU|WR
+John Metchie III|PHI|WR
+Robert Woods|PIT|WR
+Xavier Hutchinson|HOU|WR
+Noah Gray|KC|TE
+Jared Wiley|KC|TE
+Foster Moreau|NO|TE
+Taysom Hill|NO|TE
+Tyler Conklin|LAC|TE
+Gerald Everett|CHI|TE
+Cole Kmet|CHI|TE
+Luke Musgrave|GB|TE
+Tucker Kraft|GB|TE
+Josh Oliver|MIN|TE
+Johnny Mundt|JAX|TE
+Theo Johnson|NYG|TE
+Daniel Bellinger|NYG|TE
+Jeremy Ruckert|NYJ|TE
+Mike Gesicki|CIN|TE
+Drew Sample|CIN|TE
+Pat Freiermuth|PIT|TE
+Darnell Washington|PIT|TE
+Charlie Kolar|BAL|TE
+David Njoku|CLE|TE
+Mo Alie-Cox|IND|TE
+Kylen Granson|PHI|TE
+Evan Engram|DEN|TE
+Luke Farrell|SF|TE
+Colby Parkinson|LAR|TE
+Davis Allen|LAR|TE
+Tyler Higbee|LAR|TE
+Michael Mayer|LV|TE
+Austin Hooper|NE|TE
+Will Dissly|LAC|TE
+Hayden Hurst|FA|TE
+Adam Trautman|DEN|TE
+Brevin Jordan|HOU|TE
+Dalton Keene|FA|TE
+Tommy Tremble|CAR|TE
+Ja'Tavion Sanders|CAR|TE
+Cade Otton|TB|TE
+Payne Durham|TB|TE
+Grant Calcaterra|PHI|TE
+Ben Sinnott|WAS|TE
+Zach Ertz|WAS|TE
+John Bates|WAS|TE
+Chig Okonkwo|WAS|TE
+Josh Whyle|TEN|TE
+Nick Vannett|TEN|TE
+Jonnu Smith|PIT|TE
+Durham Smythe|CHI|TE
+Julian Hill|MIA|TE
+Blake Whiteheart|CLE|TE
+Lucas Krull|DEN|TE
+Stone Smartt|NYJ|TE
+Brayden Willis|SF|TE
+Jake Moody|SF|K
+Justin Tucker|FA|K
+Younghoe Koo|ATL|K
+Jake Elliott|PHI|K
+Matt Gay|WAS|K
+Nick Folk|NYJ|K
+Jason Sanders|MIA|K
+Daniel Carlson|LV|K
+Wil Lutz|DEN|K
+Chris Boswell|PIT|K
+Brandon McManus|GB|K
+Joshua Karty|LAR|K
+Matt Prater|BUF|K
+Blake Grupe|NO|K
+Evan McPherson|CIN|K
+Chad Ryland|ARI|K
+Joey Slye|TEN|K
+Graham Gano|NYG|K
+Austin Seibert|WAS|K
+Spencer Shrader|IND|K`;
+const defenses=`Texans D/ST|HOU|DEF
+Broncos D/ST|DEN|DEF
+Seahawks D/ST|SEA|DEF
+Rams D/ST|LAR|DEF
+Eagles D/ST|PHI|DEF
+Vikings D/ST|MIN|DEF
+Chargers D/ST|LAC|DEF
+Ravens D/ST|BAL|DEF
+Patriots D/ST|NE|DEF
+Steelers D/ST|PIT|DEF
+Jaguars D/ST|JAX|DEF
+Packers D/ST|GB|DEF
+Bills D/ST|BUF|DEF
+Dolphins D/ST|MIA|DEF
+Jets D/ST|NYJ|DEF
+Bengals D/ST|CIN|DEF
+Browns D/ST|CLE|DEF
+Titans D/ST|TEN|DEF
+Colts D/ST|IND|DEF
+Cowboys D/ST|DAL|DEF
+Giants D/ST|NYG|DEF
+Commanders D/ST|WAS|DEF
+Bears D/ST|CHI|DEF
+Lions D/ST|DET|DEF
+Falcons D/ST|ATL|DEF
+Panthers D/ST|CAR|DEF
+Saints D/ST|NO|DEF
+Buccaneers D/ST|TB|DEF
+Cardinals D/ST|ARI|DEF
+49ers D/ST|SF|DEF
+Raiders D/ST|LV|DEF
+Chiefs D/ST|KC|DEF`;
+const baseRows=csv.trim().split('\n'),seen=new Set(baseRows.map(x=>{const[,n,t,p]=x.split('|');return `${n}|${t}|${p}`.toLowerCase()}));
+const extraRows=supplementalCsv.trim().split('\n').filter(x=>{const key=x.toLowerCase();if(seen.has(key))return false;seen.add(key);return true}).slice(0,400-baseRows.length).map((x,i)=>`${baseRows.length+i+1}|${x}`);
+const defenseRows=defenses.trim().split('\n').map((x,i)=>`${401+i}|${x}`);
+const players=[...baseRows,...extraRows,...defenseRows].map(x=>{const [rank,name,team,pos]=x.split('|');return{rank:+rank,name,team,pos,id:rank+'-'+name+'-'+team}});
+const defaults={drafted:[],mine:[],injured:[],history:[],filter:'ALL',allFilter:'ALL',roundSlots:{},locked:false};let state={...defaults,...JSON.parse(localStorage.getItem('draft12')||'{}')};state.roundSlots=state.roundSlots||{};state.injured=state.injured||[];
+const legacyDefenseNames=['Texans D/ST','Broncos D/ST','Seahawks D/ST','Rams D/ST','Eagles D/ST','Vikings D/ST','Chargers D/ST','Ravens D/ST','Patriots D/ST','Steelers D/ST','Jaguars D/ST','Packers D/ST'];
+const legacyDefenseMap=new Map(legacyDefenseNames.map((name,i)=>{const p=players.find(x=>x.name===name);return[`${215+i}-${name}-${p.team}`,p.id]}));
+const validIds=new Set(players.map(p=>p.id)),migrateId=id=>legacyDefenseMap.get(id)||id,migrateList=list=>[...new Set((list||[]).map(migrateId).filter(id=>validIds.has(id)))];
+state.drafted=migrateList(state.drafted);state.mine=migrateList(state.mine);state.injured=migrateList(state.injured);state.history=(state.history||[]).map(h=>({...h,id:h.id?migrateId(h.id):h.id,out:h.out?migrateId(h.out):h.out,in:h.in?migrateId(h.in):h.in}));
 const starters={QB:1,RB:2,WR:2,TE:1,K:1,DEF:1},depthTargets={QB:1,RB:5,WR:5,TE:1,K:1,DEF:1},flexPositions=['RB','WR','TE'],allPositions=['RB','WR','QB','TE','K','DEF'],benchSlots=6,irSlots=2,rosterLimit=15,leagueDemand={QB:12,RB:30,WR:29,TE:13,K:12,DEF:12},weeklySlots={QB:1,RB:2,WR:2,TE:1,K:1,DEF:1},pointFit={QB:.98,RB:1.12,WR:1.08,TE:.96,K:.72,DEF:.80},fillDeadline={RB:7,WR:8,QB:11,TE:10,DEF:14,K:15}; const labels=['ALL','RB','WR','QB','TE','K','DEF']; const $=s=>document.querySelector(s);
 function save(){localStorage.setItem('draft12',JSON.stringify(state))} function counts(){return state.mine.reduce((a,id)=>{let p=players.find(x=>x.id===id);if(p)a[p.pos]=(a[p.pos]||0)+1;return a},{})}
 let currentMarkets={},currentLineup={};
@@ -257,16 +518,24 @@ function marketState(){const raw=players.filter(p=>!state.drafted.includes(p.id)
 function score(p){const c=counts(),pick=state.drafted.length+1,round=Math.ceil(pick/12),m=currentMarkets[p.pos],overall=Math.min(...players.filter(x=>!state.drafted.includes(x.id)).map(x=>x.rank)),gap=p.rank-overall,slotsLeft=Math.max(0,rosterLimit-state.mine.length),requiredOpen=currentLineup.startersOpen+currentLineup.flexMissing,mustComplete=requiredOpen>=slotsLeft,fillsRequired=!!(m?.starterNeed||m?.flexNeed);let s=1200-p.rank*5+(pointFit[p.pos]-1)*120;if(mustComplete)s+=fillsRequired?5000:-5000;if(m?.starterNeed)s+=m.starterUrgency;if(m?.flexNeed)s+=85;s+=Math.min(55,(m?.depthNeed||0)*11);if(m)s+=Math.min(110,m.waitLoss*5)+Math.min(75,m.demandPressure*90);if(m?.lastGood&&(m.starterNeed||m.flexNeed))s+=75;if(m?.active&&m.viable)s+=m.recent6*10+m.recent12*3;if(m?.starterNeed&&round>=fillDeadline[p.pos])s+=(round-fillDeadline[p.pos]+1)*55;if(m?.filled)s-=130;if(gap>(m?.reach||20))s-=(gap-(m?.reach||20))*9;if(p.pos==='QB'){if(!m?.starterNeed)s-=110;else if(round<4&&p.rank>35)s-=45;if(['Josh Allen','Lamar Jackson','Jayden Daniels','Jalen Hurts'].includes(p.name))s+=25}if(p.pos==='TE'){if(!m?.starterNeed&&!m?.flexNeed)s-=90;else if(round<5&&p.rank>40)s-=35}if(p.pos==='K'||p.pos==='DEF'){if(round<13&&!mustComplete)s-=500;else if(m?.starterNeed)s+=140;if(m?.filled)s-=200}return s}
 function available(){currentMarkets=marketState();return players.filter(p=>!state.drafted.includes(p.id)).sort((a,b)=>score(b)-score(a))} function priorityValue(pos){const m=currentMarkets[pos],round=Math.ceil((state.drafted.length+1)/12);if(!m)return-999;let v=m.starterUrgency+m.waitLoss*5+m.demandPressure*90+(m.lastGood?60:0)+(m.active?m.recent6*12:0);if((pos==='K'||pos==='DEF')&&round<13)v-=600;if(round>=fillDeadline[pos])v+=100;return v}function need(){const open=allPositions.filter(p=>currentMarkets[p]?.starterNeed).sort((a,b)=>priorityValue(b)-priorityValue(a)),actionable=open.filter(p=>priorityValue(p)>-200);return actionable.length?actionable.slice(0,2).join(' / '):currentLineup.flexMissing?'FLEX':'Bench upside'}
 function playerReason(p){const m=currentMarkets[p.pos];if(!m)return'';if(m.starterNeed)return`${m.missingCount} starter slot${m.missingCount>1?'s':''} open`;if(m.flexNeed)return'W/R/T slot open';if(m.lastGood)return'Last in tier';if(m.waitLoss>=14)return`Wait cost +${m.waitLoss}`;if(m.active)return`${p.pos} run`;return'Best value'}
-function row(p,n){return `<article class="player"><div class="rank">${n||p.rank}</div><div class="who"><b>${p.name}</b><div class="meta"><span class="pill ${p.pos}">${p.pos}</span><span>${p.team}</span><span>Board #${p.rank}</span>${n?`<span class="value">${playerReason(p)}</span>`:''}</div></div><div class="actions"><button class="iconbtn mine" aria-label="Draft ${p.name} to my team" onclick="draft('${esc(p.id)}',true)">✓</button><button class="iconbtn gone" aria-label="Mark ${p.name} drafted by another team" onclick="draft('${esc(p.id)}',false)">×</button></div></article>`}
+function ownership(p){return state.injured.includes(p.id)?'injured':state.mine.includes(p.id)?'mine':state.drafted.includes(p.id)?'other':'available'}
+function ownerLabel(o){return o==='mine'?'My Team':o==='other'?'Other Team':o==='injured'?'Injured/IR':'Available'}
+function ownerButtons(p){const o=ownership(p);return `<div class="ownerActions"><button class="ownerBtn ${o==='mine'?'mineOwn':''}" onclick="setOwner('${esc(p.id)}','mine')">Mine</button><button class="ownerBtn ${o==='other'?'otherOwn':''}" onclick="setOwner('${esc(p.id)}','other')">Other</button><button class="ownerBtn ${o==='injured'?'injuredOwn':''}" onclick="setOwner('${esc(p.id)}','injured')">IR</button><button class="ownerBtn ${o==='available'?'freeOwn':''}" onclick="setOwner('${esc(p.id)}','available')">Available</button></div>`}
+function row(p,n){return `<article class="player"><div class="rank">${n||p.rank}</div><div class="who"><b>${p.name}</b><div class="meta"><span class="pill ${p.pos}">${p.pos}</span><span>${p.team}</span><span>Board #${p.rank}</span>${n?`<span class="value">${state.locked?'Free agent':playerReason(p)}</span>`:''}${state.locked?`<span>${ownerLabel(ownership(p))}</span>`:''}</div></div>${state.locked?ownerButtons(p):`<div class="actions"><button class="iconbtn mine" aria-label="Draft ${p.name} to my team" onclick="draft('${esc(p.id)}',true)">✓</button><button class="iconbtn gone" aria-label="Mark ${p.name} drafted by another team" onclick="draft('${esc(p.id)}',false)">×</button></div>`}</article>`}
 function esc(s){return s.replaceAll("'","\\'")}
-function draft(id,mine){if(state.drafted.includes(id))return;state.history.push({id,mine});state.drafted.push(id);if(mine)state.mine.push(id);save();render();toast((mine?'Added to your roster: ':'Removed from board: ')+players.find(p=>p.id===id).name)}
+function draft(id,mine){if(state.locked)return setOwner(id,mine?'mine':'other');if(state.drafted.includes(id))return;state.history.push({id,mine});state.drafted.push(id);if(mine)state.mine.push(id);save();render();toast((mine?'Added to your roster: ':'Removed from board: ')+players.find(p=>p.id===id).name)}
+function applyOwner(id,owner){state.drafted=state.drafted.filter(x=>x!==id);state.mine=state.mine.filter(x=>x!==id);state.injured=state.injured.filter(x=>x!==id);if(owner==='mine'||owner==='other'||owner==='injured')state.drafted.push(id);if(owner==='mine')state.mine.push(id);if(owner==='injured')state.injured.push(id)}
+function setOwner(id,owner,record=true){const p=players.find(x=>x.id===id),prev=ownership(p);if(prev===owner)return;if(owner==='mine'&&prev!=='mine'&&state.mine.length>=rosterLimit)return toast('Active roster full — release or move someone to IR');if(owner==='injured'&&prev!=='injured'&&state.injured.length>=irSlots)return toast('Both IR slots are full');if(record)state.history.push({type:'owner',id,prev,next:owner});applyOwner(id,owner);save();render();toast(`${p.name}: ${ownerLabel(owner)}`)}
+function replacementFor(p){const pool=players.filter(x=>ownership(x)==='available'&&x.pos===p.pos).sort((a,b)=>a.rank-b.rank),best=pool[0];return best&&best.rank<p.rank?{player:best,gain:p.rank-best.rank}:null}
+function swapPlayers(outId,inId){const out=players.find(p=>p.id===outId),incoming=players.find(p=>p.id===inId);if(ownership(out)!=='mine'||ownership(incoming)!=='available')return toast('Ownership changed — recommendation recalculated');state.history.push({type:'swap',out:outId,in:inId});applyOwner(outId,'available');applyOwner(inId,'mine');save();render();toast(`Swapped ${out.name} for ${incoming.name}`)}
 function quickDraft(mine){const input=$('#pickInput'),query=input.value.trim().toLowerCase(),pool=players.filter(p=>!state.drafted.includes(p.id));if(!query)return toast('Type or select a player first');const label=p=>`${p.name} — ${p.pos}, ${p.team}`,exact=pool.find(p=>label(p).toLowerCase()===query)||pool.find(p=>p.name.toLowerCase()===query),matches=pool.filter(p=>label(p).toLowerCase().includes(query));const chosen=exact||(matches.length===1?matches[0]:null);if(!chosen)return toast(matches.length>1?'Choose the exact player from the list':'That player is not available');input.value='';draft(chosen.id,mine)}
-function undo(){let a=state.history.pop();if(!a)return toast('Nothing to undo');state.drafted=state.drafted.filter(x=>x!==a.id);state.mine=state.mine.filter(x=>x!==a.id);save();render();toast('Last pick restored')}
+function undo(){let a=state.history.pop();if(!a)return toast('Nothing to undo');if(a.type==='owner')applyOwner(a.id,a.prev);else if(a.type==='swap'){applyOwner(a.in,'available');applyOwner(a.out,'mine')}else{state.drafted=state.drafted.filter(x=>x!==a.id);state.mine=state.mine.filter(x=>x!==a.id)}save();render();toast('Last change restored')}
 function setFilter(v,all=false){state[all?'allFilter':'filter']=v;save();render()} function filters(id,active,all){$(id).innerHTML=labels.map(x=>`<button class="${x===active?'on':''}" onclick="setFilter('${x}',${all})">${x}</button>`).join('')}
-function render(){let av=available(),c=counts(),f=state.filter==='ALL'?av:av.filter(p=>p.pos===state.filter),shown=f.slice(0,12);$('#playerNames').innerHTML=av.map(p=>`<option value="${p.name} — ${p.pos}, ${p.team}"></option>`).join('');$('#recommendations').innerHTML=shown.map((p,i)=>row(p,i+1)).join('')||'<div class="empty">No available players in this position.</div>';let q=$('#search').value.toLowerCase().trim(),all=av.filter(p=>(state.allFilter==='ALL'||p.pos===state.allFilter)&&(!q||`${p.name} ${p.team} ${p.pos}`.toLowerCase().includes(q)));$('#allPlayers').innerHTML=all.map(p=>row(p)).join('')||'<div class="empty">No players match your search.</div>';filters('#recFilter',state.filter,false);filters('#allFilter',state.allFilter,true);$('#availableCount').textContent=av.length;$('#draftedCount').textContent=state.drafted.length;$('#mineCount').textContent=state.mine.length;$('#needLabel').textContent=need();let overall=state.drafted.length+1,round=Math.ceil(overall/12),slot=(overall-1)%12+1;$('#pickLabel').textContent=`${round}.${String(slot).padStart(2,'0')}`;renderLiveRoster();renderExactRoster(c);let top=shown[0],m=top?currentMarkets[top.pos]:null,card=$('#marketCard'),filtered=state.filter!=='ALL';card.classList.remove('run','safe');if(!top){$('#marketFlag').textContent='No available player';$('#adviceTitle').textContent='No pick available';$('#advice').textContent='Change the position filter or restore a player to the board.'}else{if(m?.urgent)card.classList.add('run');else if(m?.passed||m?.filled)card.classList.add('safe');$('#marketFlag').textContent=filtered?`#1 ${state.filter} recommendation`:'#1 overall recommendation';$('#adviceTitle').textContent=`Pick ${top.name}`;let why=`${top.name} is the same #1 player shown at the top of ${filtered?`the ${state.filter} list`:'Best 12'}.`;if(m?.urgent)why+=` ${top.pos} is urgent: ${m.survivors} strong tier option${m.survivors===1?' remains':'s remain'}, and waiting projects a ${m.waitLoss}-rank drop.`;else if(m?.starterNeed)why+=` You still have ${m.missingCount} ${top.pos} starter slot${m.missingCount===1?'':'s'} open.`;else if(m?.flexNeed)why+=' This player can fill your open W/R/T FLEX slot.';else why+=` The model rates this as the best remaining value after roster need and replacement cost.`;$('#advice').textContent=why}$('#rosterHint').textContent=`Open: ${need()} · ${state.mine.length} of 15 drafted`}
-function renderLiveRoster(){const mine=state.mine.map(id=>players.find(p=>p.id===id)).filter(Boolean),used=new Set(),slots=[];for(const pos of ['QB','WR','RB','TE'])for(let i=0;i<starters[pos];i++){const p=mine.find(x=>x.pos===pos&&!used.has(x.id));if(p)used.add(p.id);slots.push({label:pos+(starters[pos]>1?i+1:''),p})}let flex=mine.find(x=>flexPositions.includes(x.pos)&&!used.has(x.id));if(flex)used.add(flex.id);slots.push({label:'FLEX',p:flex});for(const pos of ['K','DEF']){const p=mine.find(x=>x.pos===pos&&!used.has(x.id));if(p)used.add(p.id);slots.push({label:pos,p})}const bench=mine.filter(x=>!used.has(x.id));for(let i=0;i<benchSlots;i++)slots.push({label:`BN${i+1}`,p:bench[i]});$('#liveRosterSlots').innerHTML=slots.map(x=>`<div class="rosterChip ${x.p?'':'empty'}"><small>${x.label}</small><strong>${x.p?x.p.name:'Empty'}</strong></div>`).join('');$('#liveRosterCount').textContent=`${state.mine.length} / ${rosterLimit}`;renderDraftOrder()}
+function render(){document.body.classList.toggle('season',state.locked);let av=available(),c=counts(),f=state.filter==='ALL'?av:av.filter(p=>p.pos===state.filter),shown=f.slice(0,12);$('#playerNames').innerHTML=(state.locked?players:av).map(p=>`<option value="${p.name} — ${p.pos}, ${p.team}"></option>`).join('');$('#recommendations').innerHTML=shown.map((p,i)=>row(p,i+1)).join('')||'<div class="empty">No available players in this position.</div>';let q=$('#search').value.toLowerCase().trim(),databasePool=state.locked?players:av,all=databasePool.filter(p=>(state.allFilter==='ALL'||p.pos===state.allFilter)&&(!q||`${p.name} ${p.team} ${p.pos}`.toLowerCase().includes(q)));$('#allPlayers').innerHTML=all.map(p=>row(p)).join('')||'<div class="empty">No players match your search.</div>';filters('#recFilter',state.filter,false);filters('#allFilter',state.allFilter,true);$('#availableCount').textContent=av.length;$('#draftedCount').textContent=state.drafted.length;$('#mineCount').textContent=state.mine.length;$('#needLabel').textContent=need();let overall=state.drafted.length+1,round=Math.ceil(overall/12),slot=(overall-1)%12+1;$('#pickLabel').textContent=state.locked?'LOCKED':`${round}.${String(slot).padStart(2,'0')}`;renderLiveRoster();renderExactRoster(c);renderSeason();let top=shown[0],m=top?currentMarkets[top.pos]:null,card=$('#marketCard'),filtered=state.filter!=='ALL';card.classList.remove('run','safe');if(!top){$('#marketFlag').textContent='No available player';$('#adviceTitle').textContent='No recommendation';$('#advice').textContent='Change the position filter or mark a player Available.'}else{if(m?.urgent)card.classList.add('run');else if(m?.passed||m?.filled)card.classList.add('safe');$('#marketFlag').textContent=filtered?`#1 ${state.filter} recommendation`:'#1 overall recommendation';$('#adviceTitle').textContent=`${state.locked?'Best free agent:':'Pick'} ${top.name}`;let why=`${top.name} is the same #1 player shown at the top of ${filtered?`the ${state.filter} list`:'Best 12'}.`;if(state.locked)why+=` Compare the replacement watch before adding; only Available players are considered.`;else if(m?.urgent)why+=` ${top.pos} is urgent: ${m.survivors} strong tier option${m.survivors===1?' remains':'s remain'}, and waiting projects a ${m.waitLoss}-rank drop.`;else if(m?.starterNeed)why+=` You still have ${m.missingCount} ${top.pos} starter slot${m.missingCount===1?'':'s'} open.`;else if(m?.flexNeed)why+=' This player can fill your open W/R/T FLEX slot.';else why+=` The model rates this as the best remaining value after roster need and replacement cost.`;$('#advice').textContent=why}$('#rosterHint').textContent=state.locked?`${state.mine.length} of ${rosterLimit} · ownership locked in`:`Open: ${need()} · ${state.mine.length} of 15 drafted`}
+function renderLiveRoster(){const mine=state.mine.map(id=>players.find(p=>p.id===id)).filter(Boolean),ir=state.injured.map(id=>players.find(p=>p.id===id)).filter(Boolean),used=new Set(),slots=[];for(const pos of ['QB','WR','RB','TE'])for(let i=0;i<starters[pos];i++){const p=mine.find(x=>x.pos===pos&&!used.has(x.id));if(p)used.add(p.id);slots.push({label:pos+(starters[pos]>1?i+1:''),p})}let flex=mine.find(x=>flexPositions.includes(x.pos)&&!used.has(x.id));if(flex)used.add(flex.id);slots.push({label:'FLEX',p:flex});for(const pos of ['K','DEF']){const p=mine.find(x=>x.pos===pos&&!used.has(x.id));if(p)used.add(p.id);slots.push({label:pos,p})}const bench=mine.filter(x=>!used.has(x.id));for(let i=0;i<benchSlots;i++)slots.push({label:`BN${i+1}`,p:bench[i]});for(let i=0;i<irSlots;i++)slots.push({label:`IR${i+1}`,p:ir[i],ir:true});$('#liveRosterSlots').innerHTML=slots.map(x=>{const upgrade=state.locked&&x.p&&!x.ir?replacementFor(x.p):null;return `<div class="rosterChip ${x.p?'':'empty'} ${x.ir&&x.p?'irFilled':''} ${upgrade&&upgrade.gain>=5?'swapAlert':''}"><small>${x.label}${upgrade&&upgrade.gain>=5?' · SWAP':''}</small><strong>${x.p?x.p.name:'Empty'}</strong></div>`}).join('');$('#liveRosterCount').textContent=`Active ${state.mine.length}/${rosterLimit} · IR ${state.injured.length}/${irSlots}`;renderDraftOrder()}
+function renderSeason(){const panel=$('#swapWatch');panel.hidden=!state.locked;$('#lockDraft').textContent=state.locked?'Return to Draft':'Lock Draft';$('#bestTitle').textContent=state.locked?'Best 12 free agents':'Best 12 available';$('#bestSubtitle').textContent=state.locked?'Live · Available players only':'Live · recalculated after every pick';if(!state.locked)return;const suggestions=state.mine.map(id=>players.find(p=>p.id===id)).filter(Boolean).map(p=>({mine:p,upgrade:replacementFor(p)})).filter(x=>x.upgrade&&x.upgrade.gain>=5).sort((a,b)=>b.upgrade.gain-a.upgrade.gain);$('#swapRows').className='swapRows';$('#swapRows').innerHTML=suggestions.length?suggestions.map(x=>`<div class="swapItem alert"><div><b>${x.mine.name}</b><small>${x.mine.pos} · My Team · Board #${x.mine.rank}</small></div><span class="swapArrow">→</span><div><b>${x.upgrade.player.name}</b><small>${x.upgrade.player.pos} · Available · +${x.upgrade.gain} ranks</small></div><button class="primary" onclick="swapPlayers('${esc(x.mine.id)}','${esc(x.upgrade.player.id)}')">Swap</button></div>`).join(''):'<div class="empty">No available same-position player currently rates at least five board places above a member of your team.</div>'}
 let lastCountdown=null;function renderDraftOrder(){const t=draftTiming(),sel=$('#roundSlot'),box=$('#turnCountdown'),displayCount=t.nextRound?t.roundEndsIn:t.picksBefore;sel.value=String(t.mySlot);sel.disabled=!!t.nextRound;sel.title=t.nextRound?'Locked after your pick until the next round begins':'Set your randomized slot for this round';box.classList.toggle('now',!t.nextRound&&t.picksBefore===0);box.querySelector('strong').textContent=!t.nextRound&&t.picksBefore===0?'YOUR TURN':displayCount;box.querySelector('small').textContent=t.nextRound?'picks until next round':t.picksBefore===0?(t.passed?'slot reached':'on the clock'):'picks until you';$('#turnStatus').textContent=t.nextRound?`${t.roundEndsIn} selection${t.roundEndsIn===1?'':'s'} remain in round ${t.round} · slot unlocks next round`:t.picksBefore===0?(t.passed?'Your selected slot has arrived or passed — record your pick now':'Choose from the live #1 recommendations now'):`${t.picksBefore} player${t.picksBefore===1?'':'s'} must be logged before your selection${t.known?'':' · using estimated slot 6'}`;if(lastCountdown!==null&&lastCountdown>0&&t.picksBefore===0&&navigator.vibrate)navigator.vibrate([180,80,180]);lastCountdown=t.picksBefore}
-function slotPriority(pos){const m=currentMarkets[pos],round=Math.ceil((state.drafted.length+1)/12);if(!m?.starterNeed)return'filled';if((pos==='K'||pos==='DEF')&&round<13)return'late';const v=priorityValue(pos);return v>=290?'high':v>=210?'medium':'low'}function renderExactRoster(c=counts()){const surplus=flexPositions.reduce((n,p)=>n+Math.max(0,(c[p]||0)-starters[p]),0),primaryFilled=Object.keys(starters).reduce((n,p)=>n+Math.min(c[p]||0,starters[p]),0),flexFilled=Math.min(1,surplus),benchUsed=Math.max(0,state.mine.length-primaryFilled-flexFilled);$('#slots').innerHTML=allPositions.map(x=>`<div class="slot"><small>${x} · ${slotPriority(x)}</small><b>${Math.min(c[x]||0,starters[x])} / ${starters[x]}</b></div>`).join('')+`<div class="slot"><small>W/R/T FLEX</small><b>${flexFilled} / 1</b></div><div class="slot"><small>Bench</small><b>${benchUsed} / ${benchSlots}</b></div><div class="slot"><small>IR</small><b>0 / ${irSlots}</b></div>`}
+function slotPriority(pos){const m=currentMarkets[pos],round=Math.ceil((state.drafted.length+1)/12);if(!m?.starterNeed)return'filled';if((pos==='K'||pos==='DEF')&&round<13)return'late';const v=priorityValue(pos);return v>=290?'high':v>=210?'medium':'low'}function renderExactRoster(c=counts()){const surplus=flexPositions.reduce((n,p)=>n+Math.max(0,(c[p]||0)-starters[p]),0),primaryFilled=Object.keys(starters).reduce((n,p)=>n+Math.min(c[p]||0,starters[p]),0),flexFilled=Math.min(1,surplus),benchUsed=Math.max(0,state.mine.length-primaryFilled-flexFilled);$('#slots').innerHTML=allPositions.map(x=>`<div class="slot"><small>${x} · ${slotPriority(x)}</small><b>${Math.min(c[x]||0,starters[x])} / ${starters[x]}</b></div>`).join('')+`<div class="slot"><small>W/R/T FLEX</small><b>${flexFilled} / 1</b></div><div class="slot"><small>Bench</small><b>${benchUsed} / ${benchSlots}</b></div><div class="slot"><small>IR</small><b>${state.injured.length} / ${irSlots}</b></div>`}
 let tt;function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');clearTimeout(tt);tt=setTimeout(()=>$('#toast').classList.remove('show'),1800)}
-$('#roundSlot').innerHTML=Array.from({length:12},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');$('#roundSlot').addEventListener('input',e=>{const r=Math.ceil((state.drafted.length+1)/12);state.roundSlots={...state.roundSlots,[r]:+e.target.value};save();render();toast(`Round ${r}: countdown updated for slot ${e.target.value}`)});$('#search').addEventListener('input',render);$('#otherPick').onclick=()=>quickDraft(false);$('#myPick').onclick=()=>quickDraft(true);$('#undo').onclick=undo;$('#reset').onclick=()=>{state={...defaults,drafted:[],mine:[],history:[],roundSlots:{}};localStorage.removeItem('draft12');$('#search').value='';$('#pickInput').value='';save();render();toast('Draft reset — all players restored')};render();
+$('#roundSlot').innerHTML=Array.from({length:12},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');$('#roundSlot').addEventListener('input',e=>{const r=Math.ceil((state.drafted.length+1)/12);state.roundSlots={...state.roundSlots,[r]:+e.target.value};save();render();toast(`Round ${r}: countdown updated for slot ${e.target.value}`)});$('#lockDraft').onclick=()=>{state.locked=!state.locked;save();render();toast(state.locked?'Draft locked — Season Mode active':'Draft editing restored')};$('#search').addEventListener('input',render);$('#otherPick').onclick=()=>quickDraft(false);$('#myPick').onclick=()=>quickDraft(true);$('#undo').onclick=undo;$('#reset').onclick=()=>{state={...defaults,drafted:[],mine:[],history:[],roundSlots:{},locked:false};localStorage.removeItem('draft12');$('#search').value='';$('#pickInput').value='';save();render();toast('Draft reset — all players restored')};render();
 </script></body></html>
